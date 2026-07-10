@@ -1,10 +1,10 @@
-# GoSpatialFast: High-Performance Concurrent Spatial Engine for Python via C-Bridge
+# GoSpatialFastPIP: High-Performance Concurrent Spatial Engine for Python via C-Bridge
 
 [![Go Version](https://img.shields.io/github/go-mod/go-version/Royalosyin/go-spatial-fast?color=00ADD8)](https://golang.org)
 [![Python Version](https://img.shields.io/badge/python-3.9+-blue.svg)](https://python.org)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
-`GoSpatialFast` is an ultra-fast, multi-threaded geospatial query engine written in Go and compiled as a shared library (`.dll`/`.so`). It seamlessly plugs into Python workflows via `ctypes` to handle massive Point-in-Polygon (PIP) and spatial boundary intersection checks at microsecond-per-point scale.
+`GoSpatialFastPIP` is an ultra-fast, multi-threaded geospatial query engine written in Go and compiled as a shared library (`.dll`/`.so`). It seamlessly plugs into Python workflows via `ctypes` to handle massive Point-in-Polygon (PIP) and spatial boundary intersection checks at microsecond-per-point scale.
 
 ## 💡 Background & Motivation
 
@@ -44,3 +44,37 @@ The system bypasses typical serialization bottlenecks (like JSON or CSV string p
    ctypes.POINTER ───► [ C-Bridge API (unsafe.Pointer) ] ───► Parallel Worker 1
                                                             ► Parallel Worker 2
                                                             ► Parallel Worker 3
+```
+## 🚀 Getting Started
+### Prerequisites
+- Go Compiler: 1.18+ (Ensure GOARCH=amd64 for 64-bit target matching your Python env)
+- C Compiler (Windows): w64devkit or mingw-w64 (64-bit GCC toolchain)
+- Python Environments: geopandas, numpy, shapely
+
+### 1. Build the Shared Library
+Compile the Go engine into a native shared runtime target:
+
+```PowerShell
+# Windows PowerShell
+$env:GOARCH="amd64"
+$env:CGO_ENABLED="1"
+go build -buildmode=c-shared -o spatial_engine.dll src/engine.go
+```
+(For Linux targets, replace -o spatial_engine.dll with -o spatial_engine.so)
+
+### 2. Run the Benchmark & Verification Script
+Ensure your boundary file is placed inside a data/ directory, then execute the cross-validation script:
+```bash
+python spatial_comparison.py
+```
+## 📝 License
+This project is open-source software licensed under the MIT License.
+
+## 👥 Author
+
+* **Chonghua Yin**
+  * **Role:** Data Scientist
+  * **Domain:** Climate Risk Engineering & High-Performance Scientific Computing
+  * **GitHub:** [@Royalosyin](https://github.com/Royalosyin)
+
+---
